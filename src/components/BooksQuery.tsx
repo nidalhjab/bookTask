@@ -1,17 +1,17 @@
 import axios from "axios";
 import { useState } from "react";
+import Card from "@mui/material/Card";
+import "./books.css";
+import { CardContent, Typography } from "@mui/material";
 type book = {
   id: number;
   title: string;
   author: string;
   year: string;
 };
-type allBooks = {
-  books: book[];
-};
 const BooksQuery = () => {
   const [book, setBooks] = useState("");
-  const [list, setList] = useState<allBooks>({ books: [] });
+  const [list, setList] = useState([]);
   const submit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     if (!book) {
@@ -42,28 +42,31 @@ const BooksQuery = () => {
     return bookDetails;
   };
   return (
-    <div className="search-bar">
-      <p>Search the book by start tapping here ⏬</p>
-      <input
-        value={book}
-        onChange={(e) => {
-          setBooks(e.target.value);
-        }}
-      />
-      <button onClick={submit}>FIND</button>
-
-      <div className="list">
-        {list.books.length ? (
-          <p>
-            {list.books.map((data) => (
-              <span>{data.title}</span>
-            ))}
-          </p>
-        ) : (
-          <p>NO</p>
-        )}
+    <>
+      <div className="search-bar">
+        <p>Search the book by start tapping here ⏬</p>
+        <input
+          value={book}
+          onChange={(e) => {
+            setBooks(e.target.value);
+          }}
+        />
+        <button onClick={submit}>FIND</button>
       </div>
-    </div>
+      <div className="books">
+        {list.map((book: book) => (
+          <div key={book.id} className="card-list">
+            <Card>
+              <CardContent>{book.title}</CardContent>
+              <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                {book.author[0]}
+                <p> pupblished in {book.year}</p>
+              </Typography>
+            </Card>
+          </div>
+        ))}
+      </div>
+    </>
   );
 };
 export default BooksQuery;
