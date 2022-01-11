@@ -44,7 +44,6 @@ const BooksQuery = () => {
   return (
     <>
       <div className="search-bar">
-        <p>Search the book by start tapping here ⏬</p>
         <input
           value={book}
           onChange={(e) => {
