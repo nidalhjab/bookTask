@@ -3,33 +3,39 @@ import Card from "@mui/material/Card";
 import { v4 as uuidv4 } from "uuid";
 import "./books.css";
 import { CardContent, Typography } from "@mui/material";
-import BookObject from "../types/book";
-import AllBooks from "../types/allBooks";
-import ResponseObject from "../types/respBooks";
+import { Book } from "../types/book";
+import { AllBooks } from "../types/allBooks";
+import { ResponseBook, Items } from "../types/respBooks";
+import { GoogleBooks } from "./API/GoogleBooks";
 const BooksQuery = () => {
   const [book, setBooks] = useState("");
   const [list, setList] = useState<AllBooks>({ books: [] });
-  const submit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const generateId = () => {
+    const temp = uuidv4();
+    return temp;
+  };
+  const submit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     if (!book) {
       alert("Please enter a book name");
     } else {
-      getData().then((data) => {
-        setList(setBooksModel(data.items));
+      await getData().then((data) => {
+        setList(setBooksModel(data));
       });
     }
   };
   const getData = async () => {
-    const response = await fetch(
-      `https://www.googleapis.com/books/v1/volumes?q=${book}`
-    );
-    const data = response.json();
-    return data;
+    const response = await GoogleBooks.get<ResponseBook>("/volumes", {
+      params: {
+        q: book,
+      },
+    });
+    return response.data.items;
   };
-  const setBooksModel = (data: ResponseObject[]) => {
+  const setBooksModel = (data: Items[]) => {
     let books: AllBooks = { books: [] };
-    data.map((book: ResponseObject) => {
-      let tempBook: BookObject = {
+    data.map((book: Items) => {
+      let tempBook: Book = {
         id: book.id,
         title: book.volumeInfo.title,
         author: book.volumeInfo.authors,
@@ -37,7 +43,6 @@ const BooksQuery = () => {
       };
       books.books.push(tempBook);
     });
-
     return books;
   };
   return (
@@ -52,14 +57,21 @@ const BooksQuery = () => {
         <button onClick={submit}>FIND</button>
       </div>
       <div className="books">
-        {list.books.map((book: BookObject) => (
+        {list.books.map((book) => (
           <div key={book.id} className="card-list">
             <Card>
-              <CardContent>{book.title}</CardContent>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                {book.author.map((auth) => (
-                  <p key={uuidv4()}>{auth}</p>
+              <CardContent>
+                <strong>Title :</strong>
+                {book.title}
+              </CardContent>
+              <Typography color="text.secondary">
+                {book.author?.map((auth) => (
+                  <p key={generateId()}>authors :{auth}</p>
                 ))}
+              </Typography>
+              <Typography>
+                <strong>Published in </strong>
+                {book.year}
               </Typography>
             </Card>
           </div>

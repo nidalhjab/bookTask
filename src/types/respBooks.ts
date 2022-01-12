@@ -1,4 +1,4 @@
-type ResponseBook = {
+export type Items = {
   kind: string;
   id: string;
   etag: string;
@@ -8,7 +8,11 @@ type ResponseBook = {
   accessInfo: AccessInfo;
   searchInfo: SearchInfo;
 };
-
+export type ResponseBook = {
+  kind: string;
+  totalItems: string;
+  items: Items[];
+};
 export type VolumeInfo = {
   title: string;
   subtitle: string;
@@ -81,4 +85,3 @@ export type Pdf = {
 export type SearchInfo = {
   textSnippet: string;
 };
-export default ResponseBook;
