@@ -1,5 +1,4 @@
-import BookObject from "./book";
-type allBooks = {
-  books: BookObject[];
+import { Book } from "./book";
+export type AllBooks = {
+  books: Book[];
 };
-export default allBooks;
