@@ -14,7 +14,6 @@ jobs:
 
       - name: Install and Build
           npm ci
-          npm run build
       - name: Prettier 🚀
         run: npm run format
       - name: Lint
