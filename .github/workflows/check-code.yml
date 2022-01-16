@@ -1,0 +1,24 @@
+name: Check the source code
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+     - main
+jobs:
+  build-and-deploy:
+    concurrency: ci-${{ github.ref }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+
+      - name: Install and Build
+          npm ci
+          npm run build
+      - name: Prettier 🚀
+          npm run format
+      - name: Lint
+          npm run lint:fix
+ 
