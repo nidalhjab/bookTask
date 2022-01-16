@@ -1,25 +1,25 @@
-import { SyntheticEvent, useState } from "react";
-import "./books.css";
-import { useGoogleBooksApi } from "../hooks/useGoogleApi";
+import { SyntheticEvent, useState } from 'react'
+import './books.css'
+import { useGoogleBooksApi } from '../hooks/useGoogleApi'
 const BooksQuery = () => {
-  const [book, setBooks] = useState("");
+  const [book, setBooks] = useState('')
   const [{ response, isLoading, isError }, searchBooks] =
-    useGoogleBooksApi("react");
+    useGoogleBooksApi('react')
 
   const handleSubmit = async (e: SyntheticEvent) => {
-    e.preventDefault();
-    book ? searchBooks(book) : alert("Please insert book name");
-  };
+    e.preventDefault()
+    book ? searchBooks(book) : alert('Please insert book name')
+  }
 
   return (
-    <>
+    <div className="container">
       <div className="search-bar">
         <form onSubmit={handleSubmit}>
           <input
             type="text"
             value={book}
             onChange={(e) => {
-              setBooks(e.target.value);
+              setBooks(e.target.value)
             }}
           />
           <button type="submit">FIND</button>
@@ -54,7 +54,7 @@ const BooksQuery = () => {
           </div>
         ))}
       </div>
-    </>
-  );
-};
-export default BooksQuery;
+    </div>
+  )
+}
+export default BooksQuery
