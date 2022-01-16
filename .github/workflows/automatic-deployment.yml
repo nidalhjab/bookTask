@@ -1,0 +1,16 @@
+
+name: CI
+
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      # Runs a single command using the runners shell
+      - name: deploying to gh-pages
+        run: npm run deploy
+
