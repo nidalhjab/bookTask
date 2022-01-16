@@ -4,20 +4,17 @@ import { useGoogleBooksApi } from "../hooks/useGoogleApi";
 const BooksQuery = () => {
   const [book, setBooks] = useState("");
   const [{ response, isLoading, isError }, searchBooks] =
-    useGoogleBooksApi(book);
-  let loading = isLoading;
+    useGoogleBooksApi("react");
 
-  const submit = async (e: SyntheticEvent) => {
+  const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
-    loading = true;
     book ? searchBooks(book) : alert("Please insert book name");
-    loading = false;
   };
 
   return (
     <>
       <div className="search-bar">
-        <form onSubmit={submit}>
+        <form onSubmit={handleSubmit}>
           <input
             type="text"
             value={book}
@@ -28,8 +25,8 @@ const BooksQuery = () => {
           <button type="submit">FIND</button>
         </form>
       </div>
-      {loading ? <div className="loader"></div> : null}
-      {isError ? <div className="error">Error occured</div> : null}
+      {isLoading && <div className="loader"></div>}
+      {isError && <div className="error">Error occured</div>}
       <div className="books">
         {response?.map((book) => (
           <div key={book.id} className="books-list">
@@ -40,13 +37,13 @@ const BooksQuery = () => {
               <div className="info">{book.volumeInfo.title}</div>
             </div>
 
-            {book.volumeInfo.authors?.map((auth) => (
-              <div key={auth} className="book-authors">
+            {book.volumeInfo.authors?.map((author) => (
+              <p key={author} className="book-authors">
                 <div className="id">
                   <strong>Authors :</strong>
                 </div>
-                <div className="info">{auth}</div>
-              </div>
+                <div className="info">{author}</div>
+              </p>
             ))}
             <div className="book-puplishedYead">
               <div className="id">

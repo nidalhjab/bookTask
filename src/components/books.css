@@ -1,11 +1,10 @@
 .search-bar {
-  background-color: rgb(247, 234, 65);
+  background-color: rgb(8, 11, 185);
 }
 .books {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  background-color: rgb(167, 164, 7);
 }
 @keyframes spin {
   0% {
@@ -29,7 +28,8 @@
   margin: 2px;
   padding: 15px;
   width: 25%;
-  border: 2px solid #f1e882;
+  border: 2px solid #bbdaf3;
+  background-color: rgb(95, 159, 243);
 }
 .books-list:hover {
   background-color: white;
