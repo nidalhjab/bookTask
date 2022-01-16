@@ -1,11 +1,9 @@
 name: Check the source code
 on:
   push:
-    branches:
-      - main
   pull_request:
     branches:
-     - main
+      - main
 jobs:
   build-and-deploy:
     concurrency: ci-${{ github.ref }}
@@ -18,7 +16,7 @@ jobs:
           npm ci
           npm run build
       - name: Prettier 🚀
-          npm run format
+        run: npm run format
       - name: Lint
-          npm run lint:fix
+        run: npm run lint:fix
  
