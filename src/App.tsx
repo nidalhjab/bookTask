@@ -1,5 +1,5 @@
-import "./App.css";
-import BooksQuery from "./components/BooksQuery";
+import './App.css'
+import BooksQuery from './components/BooksQuery'
 function App() {
   return (
     <div className="App">
@@ -7,6 +7,6 @@ function App() {
       <h3>Search by book name ⏬</h3>
       <BooksQuery />
     </div>
-  );
+  )
 }
-export default App;
+export default App
