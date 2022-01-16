@@ -5,17 +5,14 @@ on:
     branches:
       - main
 jobs:
-  build-and-deploy:
-    concurrency: ci-${{ github.ref }}
+  test:
+    name: Check the source code
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v2
-
-      - name: Install and Build
-          npm ci
-      - name: Prettier 🚀
+      - uses: actions/checkout@v2
+      - name: Install packages
+        run: npm ci
+      - name: Prettier
         run: npm run format
       - name: Lint
-        run: npm run lint:fix
- 
+        run: npm run lint
