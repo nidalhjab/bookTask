@@ -1,4 +1,4 @@
-export type ResponseBook = {
+export type BooksApiResponse = {
   kind: string;
   id: string;
   etag: string;
@@ -11,7 +11,7 @@ export type ResponseBook = {
 export type Items = {
   kind: string;
   totalItems: string;
-  items: ResponseBook[];
+  items: BooksApiResponse[];
 };
 
 export type VolumeInfo = {

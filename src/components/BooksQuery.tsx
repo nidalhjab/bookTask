@@ -1,71 +1,59 @@
-import { useState } from "react";
-import Card from "@mui/material/Card";
+import { SyntheticEvent, useState } from "react";
 import "./books.css";
-import { CardContent, Typography } from "@mui/material";
-import { Book } from "../types/book";
-import { AllBooks } from "../types/allBooks";
-import { ResponseBook, Items } from "../types/respBooks";
-import { GoogleBook } from "./API/GoogleBook";
+import { useGoogleBooksApi } from "../hooks/useGoogleApi";
 const BooksQuery = () => {
   const [book, setBooks] = useState("");
-  const [list, setList] = useState<AllBooks>({ books: [] });
-  const submit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    if (!book) {
-      alert("Please enter a book name");
-    } else {
-      const data = await getData();
-      setList(setBooksModel(data));
-    }
-  };
-  const getData = async () => {
-    const response = await GoogleBook.get<Items>("/volumes", {
-      params: { q: book },
-    });
-    return response.data.items;
-  };
-  const setBooksModel = (data: ResponseBook[]) => {
-    let books: AllBooks = { books: [] };
-    data.map((book: ResponseBook) => {
-      let tempBook: Book = {
-        id: book.id,
-        title: book.volumeInfo.title,
-        author: book.volumeInfo.authors,
-        year: book.volumeInfo.publishedDate,
-      };
-      books.books.push(tempBook);
-    });
+  const [{ response, isLoading, isError }, searchBooks] =
+    useGoogleBooksApi(book);
+  let loading = isLoading;
 
-    return books;
+  const submit = async (e: SyntheticEvent) => {
+    e.preventDefault();
+    loading = true;
+    book ? searchBooks(book) : alert("Please insert book name");
+    loading = false;
   };
+
   return (
     <>
       <div className="search-bar">
-        <input
-          value={book}
-          onChange={(e) => {
-            setBooks(e.target.value);
-          }}
-        />
-        <button onClick={submit}>FIND</button>
+        <form onSubmit={submit}>
+          <input
+            type="text"
+            value={book}
+            onChange={(e) => {
+              setBooks(e.target.value);
+            }}
+          />
+          <button type="submit">FIND</button>
+        </form>
       </div>
+      {loading ? <div className="loader"></div> : null}
+      {isError ? <div className="error">Error occured</div> : null}
       <div className="books">
-        {list.books.map((book) => (
-          <div key={book.id} className="card-list">
-            <Card>
-              <CardContent>
-                <strong>Title :</strong> {book.title}
-              </CardContent>
-              <Typography color="text.secondary">
-                {book.author?.map((auth) => (
-                  <p key={auth}>Authors :{auth}</p>
-                ))}
-              </Typography>
-              <Typography>
+        {response?.map((book) => (
+          <div key={book.id} className="books-list">
+            <div className="book-title">
+              <div className="id">
+                <strong>Title :</strong>
+              </div>
+              <div className="info">{book.volumeInfo.title}</div>
+            </div>
+
+            {book.volumeInfo.authors?.map((auth) => (
+              <div key={auth} className="book-authors">
+                <div className="id">
+                  <strong>Authors :</strong>
+                </div>
+                <div className="info">{auth}</div>
+              </div>
+            ))}
+            <div className="book-puplishedYead">
+              <div className="id">
                 <strong>Puplished in </strong>
-                {book.year}
-              </Typography>
-            </Card>
+              </div>
+              <div className="info">{book.volumeInfo.publishedDate}</div>
+            </div>
           </div>
         ))}
       </div>
