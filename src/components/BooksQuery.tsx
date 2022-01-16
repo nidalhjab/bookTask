@@ -1,67 +1,56 @@
-import axios from "axios";
-import { useState } from "react";
-import Card from "@mui/material/Card";
+import { SyntheticEvent, useState } from "react";
 import "./books.css";
-import { CardContent, Typography } from "@mui/material";
-type book = {
-  id: number;
-  title: string;
-  author: string;
-  year: string;
-};
+import { useGoogleBooksApi } from "../hooks/useGoogleApi";
 const BooksQuery = () => {
   const [book, setBooks] = useState("");
-  const [list, setList] = useState([]);
-  const submit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const [{ response, isLoading, isError }, searchBooks] =
+    useGoogleBooksApi("react");
+
+  const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
-    if (!book) {
-      alert("Please enter a book name");
-    } else {
-      getData();
-    }
-    console.log(list);
-  };
-  const getData = () => {
-    axios
-      .get(`https://www.googleapis.com/books/v1/volumes?q=${book}`)
-      .then((data) => {
-        setList(setBooksModel(data.data.items));
-      });
+    book ? searchBooks(book) : alert("Please insert book name");
   };
 
-  const setBooksModel = (data: any) => {
-    const bookDetails = data.map((book: any) => {
-      return {
-        id: Math.random() * 10,
-        title: book.volumeInfo.title,
-        author: { ...book.volumeInfo.authors },
-        year: book.volumeInfo.publishedDate,
-      };
-    });
-
-    return bookDetails;
-  };
   return (
     <>
       <div className="search-bar">
-        <input
-          value={book}
-          onChange={(e) => {
-            setBooks(e.target.value);
-          }}
-        />
-        <button onClick={submit}>FIND</button>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={book}
+            onChange={(e) => {
+              setBooks(e.target.value);
+            }}
+          />
+          <button type="submit">FIND</button>
+        </form>
       </div>
+      {isLoading && <div className="loader"></div>}
+      {isError && <div className="error">Error occured</div>}
       <div className="books">
-        {list.map((book: book) => (
-          <div key={book.id} className="card-list">
-            <Card>
-              <CardContent>{book.title}</CardContent>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                {book.author[0]}
-                <p> pupblished in {book.year}</p>
-              </Typography>
-            </Card>
+        {response?.map((book) => (
+          <div key={book.id} className="books-list">
+            <div className="book-title">
+              <div className="id">
+                <strong>Title :</strong>
+              </div>
+              <div className="info">{book.volumeInfo.title}</div>
+            </div>
+
+            {book.volumeInfo.authors?.map((author) => (
+              <p key={author} className="book-authors">
+                <div className="id">
+                  <strong>Authors :</strong>
+                </div>
+                <div className="info">{author}</div>
+              </p>
+            ))}
+            <div className="book-puplishedYead">
+              <div className="id">
+                <strong>Puplished in </strong>
+              </div>
+              <div className="info">{book.volumeInfo.publishedDate}</div>
+            </div>
           </div>
         ))}
       </div>
