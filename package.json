@@ -24,8 +24,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "predeploy": "npm run build",
-    "lint": "eslint --ext .tsx,.ts . --fix",
-    "format": "prettier --ignore-path .gitignore --write \"**/*.+(tsx|ts|json)\"",
+    "lint": "eslint --ext .tsx,.ts .",
+    "format": "prettier --ignore-path .gitignore --check \"**/*.+(tsx|ts|json)\"",
     "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
