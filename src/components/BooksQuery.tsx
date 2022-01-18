@@ -38,16 +38,8 @@ const BooksQuery = () => {
             </div>
 
             <div className="book-authors">
-              {book.volumeInfo.authors.length === 1 ? (
-                <p>
-                  <strong>Author :</strong> {book.volumeInfo.authors[0]}
-                </p>
-              ) : (
-                <div className="a">
-                  <strong>Authors :</strong>
-                  {book.volumeInfo.authors.join()}
-                </div>
-              )}
+              Author{book.volumeInfo.authors.length > 1 && 's'}:
+              {book.volumeInfo.authors.join(', ')}
             </div>
             <div className="book-puplishedYead">
               <div className="id">
