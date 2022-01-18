@@ -1,0 +1,15 @@
+.info {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.info .description {
+  width: 50%;
+  padding: 10%;
+}
+.info .images {
+  width: 50%;
+}
+.info .images img {
+  width: 50%;
+}
