@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { useGoogleBooksApi } from '../hooks/useGoogleApi'
 const BooksQuery = () => {
   const [book, setBooks] = useState('')
+
   const [{ response, isLoading, isError }, searchBooks] =
     useGoogleBooksApi('react')
   const handleSubmit = async (e: SyntheticEvent) => {
