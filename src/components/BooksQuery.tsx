@@ -45,9 +45,7 @@ const BooksQuery = () => {
               ) : (
                 <div className="a">
                   <strong>Authors :</strong>
-                  {book.volumeInfo.authors.map((author) => (
-                    <span> {author},</span>
-                  ))}
+                  {book.volumeInfo.authors.join()}
                 </div>
               )}
             </div>
