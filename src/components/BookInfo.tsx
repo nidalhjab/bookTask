@@ -3,7 +3,6 @@ import './BookInfo.css'
 const BookInfo = () => {
   const location = useLocation()
   const info: any = location.state
-  console.log(info)
   return (
     <>
       <Link to={'/bookTask'}>Home</Link>

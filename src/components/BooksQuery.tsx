@@ -38,14 +38,21 @@ const BooksQuery = () => {
                 <div className="info">{book.volumeInfo.title}</div>
               </div>
 
-              {book.volumeInfo.authors?.map((author) => (
-                <div key={author} className="book-authors">
-                  <div className="id">
+              <div className="book-authors">
+                {book.volumeInfo.authors.length === 1 ? (
+                  <p>
+                    <strong>Author :</strong> {book.volumeInfo.authors[0]}
+                  </p>
+                ) : (
+                  <div className="a">
                     <strong>Authors :</strong>
+                    {book.volumeInfo.authors.map((author) => (
+                      <span> {author},</span>
+                    ))}
                   </div>
-                  <div className="info">{author}</div>
-                </div>
-              ))}
+                )}
+              </div>
+
               <div className="book-puplishedYead">
                 <div className="id">
                   <strong>Puplished in </strong>
