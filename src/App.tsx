@@ -10,7 +10,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/bookTask" element={<BooksQuery />}></Route>
-          <Route path="/book/:number" element={<BookInfo />} />
+          <Route path="/book/:id" element={<BookInfo />} />
         </Routes>
       </BrowserRouter>
     </div>

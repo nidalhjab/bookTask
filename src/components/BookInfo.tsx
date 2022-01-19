@@ -1,48 +1,50 @@
 import { Link, useParams } from 'react-router-dom'
-import { useGetBookFromUrl } from '../hooks/useGetBookFromUrl'
+import { useGoogleBooksApi } from '../hooks/useGoogleApi'
 import './BookInfo.css'
 const BookInfo = () => {
-  const parameter = useParams()
-  const bookId = `${parameter.number}`
-  const [{ bookInfo, loading, error }] = useGetBookFromUrl(bookId)
+  const param = useParams()
+
+  const [{ info, isLoading, isError }] = useGoogleBooksApi(`${param.id}`)
+
   return (
     <>
       <Link to={'/bookTask'}>Home</Link>
-      <h2>The Details about {bookInfo?.title}</h2>
-      {loading && <div className="loader"></div>}
-      {error ? (
+
+      <h2>The Details about {info?.volumeInfo.title}</h2>
+      {isLoading && <div className="loader"></div>}
+      {isError ? (
         <h2>The book id is unavailable</h2>
       ) : (
         <div className="info">
           <div className="description">
             <p>
               <strong>Book Title : </strong>
-              {bookInfo?.title}
+              {info?.volumeInfo.title}
             </p>
-            {bookInfo?.subtitle && (
+            {info?.volumeInfo.subtitle && (
               <p>
                 <strong>Book SubTitle : </strong>
-                {bookInfo.subtitle}
+                {info.volumeInfo.subtitle}
               </p>
             )}
             <p>
               <strong>Book Description : </strong>
-              {bookInfo?.description}
+              {info?.volumeInfo.description}
             </p>
             <p>
               <strong>Book Puplished Date : </strong>Published in{' '}
-              {bookInfo?.publishedDate}
+              {info?.volumeInfo.publishedDate}
             </p>
-            {bookInfo?.publisher && (
+            {info?.volumeInfo.publisher && (
               <p>
                 <strong>Published BY : </strong>
-                {bookInfo?.publisher}
+                {info?.volumeInfo.publisher}
               </p>
             )}
           </div>
           <div className="images">
             <div className="book-img">
-              <img src={bookInfo?.imageLinks.thumbnail} />
+              <img src={info?.volumeInfo.imageLinks.thumbnail} />
             </div>
           </div>
         </div>

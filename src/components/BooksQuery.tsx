@@ -30,7 +30,7 @@ const BooksQuery = () => {
       {isError && <div className="error">Error occured</div>}
       <div className="books">
         {response?.map((book) => (
-          <Link key={book.id} state={book} to={`/book/${book.id}`}>
+          <Link key={book.id} to={`/book/${book.id}`}>
             <div className="books-list">
               <div className="book-title">
                 <div className="id">
