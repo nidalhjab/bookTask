@@ -45,7 +45,7 @@ const BooksQuery = () => {
                 </strong>
                 :{book.volumeInfo.authors.join(', ')}
               </div>
-              <div className="book-puplishedYead">
+              <div className="book-puplishedYear">
                 <div className="id"></div>
               </div>
             </div>

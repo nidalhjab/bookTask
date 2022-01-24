@@ -39,7 +39,7 @@ a {
 
 .books-list .book-title,
 .book-authors,
-.book-puplishedYead {
+.book-puplishedYear {
   display: flex;
   justify-content: space-between;
 }
