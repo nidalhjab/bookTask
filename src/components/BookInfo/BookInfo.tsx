@@ -7,7 +7,7 @@ const BookInfo = () => {
     <>
       <Link to={'/bookTask'}>Home</Link>
 
-      <h2>The Details about {book?.volumeInfo.title}</h2>
+      <h2>The Details about {book?.title}</h2>
       {loading && <div className="loader"></div>}
       {error ? (
         <h2>The book id is unavailable</h2>
@@ -16,32 +16,32 @@ const BookInfo = () => {
           <div className="description">
             <p>
               <strong>Book Title : </strong>
-              {book?.volumeInfo.title}
+              {book?.title}
             </p>
-            {book?.volumeInfo.subtitle && (
+            {book?.subtitle && (
               <p>
                 <strong>Book SubTitle : </strong>
-                {book.volumeInfo.subtitle}
+                {book.subtitle}
               </p>
             )}
             <p>
               <strong>Book Description : </strong>
-              {book?.volumeInfo.description}
+              {book?.description}
             </p>
             <p>
               <strong>Book Puplished Date : </strong>Published in{' '}
-              {book?.volumeInfo.publishedDate}
+              {book?.publishedDate}
             </p>
-            {book?.volumeInfo.publisher && (
+            {book?.publisher && (
               <p>
                 <strong>Published BY : </strong>
-                {book?.volumeInfo.publisher}
+                {book?.publisher}
               </p>
             )}
           </div>
           <div className="images">
             <div className="book-img">
-              <img src={book?.volumeInfo.imageLinks.thumbnail} />
+              <img src={book?.imageLinks.thumbnail} />
             </div>
           </div>
         </div>

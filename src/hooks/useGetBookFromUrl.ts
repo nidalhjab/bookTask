@@ -3,12 +3,12 @@ import { BooksApiResponse } from '../types/GoogleBooks'
 import { useGoogleBooksApi } from './useGoogleBooksApi'
 export const useGetBookFromUrl = () => {
   const { id } = useParams()
-  const { response, isLoading, isError } = useGoogleBooksApi<BooksApiResponse>(
-    `/volumes/${id}`
-  )
+  const VOLUMES_SEAECH_PATH = `/volumes/${id}`
+  const { response, loading, error } =
+    useGoogleBooksApi<BooksApiResponse>(VOLUMES_SEAECH_PATH)
   return {
-    book: response,
-    loading: isLoading,
-    error: isError,
+    book: response?.volumeInfo,
+    loading,
+    error,
   }
 }

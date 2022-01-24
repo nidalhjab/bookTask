@@ -8,15 +8,13 @@ export type BooksApiResponse = {
   accessInfo: AccessInfo
   searchInfo: SearchInfo
 }
+
 export type Items = {
   kind?: string
   totalItems?: string
   items: BooksApiResponse[]
 }
 
-export type Data<Response> = {
-  data: Response
-}
 export type VolumeInfo = {
   title: string
   subtitle: string

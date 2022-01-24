@@ -1,10 +1,10 @@
 import { SyntheticEvent, useState } from 'react'
 import './BooksQuery.css'
 import { Link } from 'react-router-dom'
-import { useGetSearchBooks } from '../../hooks/useGetSearchBooks'
+import { useGetBooks } from '../../hooks/useGetBooks'
 const BooksQuery = () => {
-  const [bookName, setBooksList] = useState<string>('')
-  const { books, loading, error, searchBooks } = useGetSearchBooks('react')
+  const [bookName, setBookName] = useState<string>('')
+  const { books, loading, error, searchBooks } = useGetBooks('react')
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault()
     bookName ? searchBooks(bookName) : alert('Please insert book name')
@@ -18,7 +18,7 @@ const BooksQuery = () => {
             type="text"
             value={bookName}
             onChange={(e) => {
-              setBooksList(e.target.value)
+              setBookName(e.target.value)
             }}
           />
           <button type="submit">FIND</button>
