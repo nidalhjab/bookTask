@@ -27,7 +27,7 @@ const BooksQuery = () => {
       {loading && <div className="loader"></div>}
       {error && <div className="error">Error occured</div>}
       <div className="books">
-        {books?.items.map((book) => (
+        {books?.map((book) => (
           <Link key={book.id} to={`/book/${book.id}`}>
             <div className="books-list">
               <div className="book-title">

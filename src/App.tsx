@@ -1,7 +1,7 @@
 import './App.css'
-import BooksQuery from './components/BooksQuery'
+import BooksQuery from './components/BooksQuery/BooksQuery'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import BookInfo from './components/BookInfo'
+import BookInfo from './components/BookInfo/BookInfo'
 function App() {
   return (
     <div className="App">
