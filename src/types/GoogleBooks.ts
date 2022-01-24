@@ -31,6 +31,7 @@ export type VolumeInfo = {
   panelizationSummary: PanelizationSummary
   imageLinks: ImageLinks
   language: string
+  publisher: string
   previewLink: string
   infoLink: string
   canonicalVolumeLink: string
