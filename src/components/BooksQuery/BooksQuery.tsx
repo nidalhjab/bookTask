@@ -1,15 +1,13 @@
 import { SyntheticEvent, useState } from 'react'
-import './books.css'
+import './BooksQuery.css'
 import { Link } from 'react-router-dom'
-import { useGoogleBooksApi } from '../hooks/useGoogleApi'
+import { useGetSearchBooks } from '../../hooks/useGetSearchBooks'
 const BooksQuery = () => {
-  const [book, setBooks] = useState('')
-
-  const [{ response, isLoading, isError }, searchBooks] =
-    useGoogleBooksApi('react')
+  const [bookName, setBooksList] = useState<string>('')
+  const { books, loading, error, searchBooks } = useGetSearchBooks('react')
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault()
-    book ? searchBooks(book) : alert('Please insert book name')
+    bookName ? searchBooks(bookName) : alert('Please insert book name')
   }
   return (
     <>
@@ -18,19 +16,19 @@ const BooksQuery = () => {
         <form onSubmit={handleSubmit}>
           <input
             type="text"
-            value={book}
+            value={bookName}
             onChange={(e) => {
-              setBooks(e.target.value)
+              setBooksList(e.target.value)
             }}
           />
           <button type="submit">FIND</button>
         </form>
       </div>
-      {isLoading && <div className="loader"></div>}
-      {isError && <div className="error">Error occured</div>}
+      {loading && <div className="loader"></div>}
+      {error && <div className="error">Error occured</div>}
       <div className="books">
-        {response?.map((book) => (
-          <Link to={`/book/${book.id}`} key={book.id}>
+        {books?.items.map((book) => (
+          <Link key={book.id} to={`/book/${book.id}`}>
             <div className="books-list">
               <div className="book-title">
                 <div className="id">
@@ -39,16 +37,19 @@ const BooksQuery = () => {
                 <div className="info">{book.volumeInfo.title}</div>
               </div>
 
-              <div className="book-authors">
-                <strong>
-                  Author{book.volumeInfo.authors.length > 1 && 's'}
-                </strong>
-                :{book.volumeInfo.authors.join(', ')}
-              </div>
+              {book.volumeInfo.authors?.map((author) => (
+                <div key={author} className="book-authors">
+                  <div className="id">
+                    <strong>Authors :</strong>
+                  </div>
+                  <div className="info">{author}</div>
+                </div>
+              ))}
               <div className="book-puplishedYead">
                 <div className="id">
                   <strong>Puplished in </strong>
                 </div>
+                <div className="info">{book.volumeInfo.publishedDate}</div>
               </div>
             </div>
           </Link>

@@ -1,0 +1,45 @@
+.search-bar {
+  background-color: rgb(8, 11, 185);
+}
+.books {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.loader {
+  margin-left: auto;
+  margin-right: auto;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #0c0c0c;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+.books-list {
+  margin: 2px;
+  padding: 15px;
+  border: 2px solid #bbdaf3;
+  background-color: rgb(95, 159, 243);
+}
+a {
+  color: blue;
+}
+.books-list:hover {
+  background-color: white;
+}
+
+.books-list .book-title,
+.book-authors,
+.book-puplishedYead {
+  display: flex;
+  justify-content: space-between;
+}
