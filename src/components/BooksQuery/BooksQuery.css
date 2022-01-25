@@ -24,6 +24,11 @@
   height: 120px;
   animation: spin 2s linear infinite;
 }
+.error {
+  text-align: center;
+  color: black;
+  font-weight: bold;
+}
 .books-list {
   margin: 2px;
   padding: 15px;
