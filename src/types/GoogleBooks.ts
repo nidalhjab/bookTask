@@ -88,3 +88,8 @@ export type Pdf = {
 export type SearchInfo = {
   textSnippet: string
 }
+
+export type State = {
+  searchInput: string
+  fetchedBooks: BooksApiResponse[] | undefined
+}
