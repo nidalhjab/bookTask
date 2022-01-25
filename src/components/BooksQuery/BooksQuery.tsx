@@ -24,37 +24,45 @@ const BooksQuery = () => {
           <button type="submit">FIND</button>
         </form>
       </div>
-      {loading && <div className="loader"></div>}
-      {error && <div className="error">Error occured</div>}
-      <div className="books">
-        {books?.map((book) => (
-          <Link key={book.id} to={`/book/${book.id}`}>
-            <div className="books-list">
-              <div className="book-title">
-                <div className="id">
-                  <strong>Title :</strong>
-                </div>
-                <div className="info">{book.volumeInfo.title}</div>
-              </div>
+      {loading ? (
+        <div className="loader"></div>
+      ) : (
+        [
+          error ? (
+            <h2>Error, please try again</h2>
+          ) : (
+            <div className="books">
+              {books?.map(({ id, volumeInfo }) => (
+                <Link key={id} to={`/book/${id}`}>
+                  <div className="books-list">
+                    <div className="book-title">
+                      <div className="id">
+                        <strong>Title :</strong>
+                      </div>
+                      <div className="info">{volumeInfo.title}</div>
+                    </div>
 
-              {book.volumeInfo.authors?.map((author) => (
-                <div key={author} className="book-authors">
-                  <div className="id">
-                    <strong>Authors :</strong>
+                    {volumeInfo.authors?.map((author) => (
+                      <div key={author} className="book-authors">
+                        <div className="id">
+                          <strong>Authors :</strong>
+                        </div>
+                        <div className="info">{author}</div>
+                      </div>
+                    ))}
+                    <div className="book-puplishedYead">
+                      <div className="id">
+                        <strong>Puplished in </strong>
+                      </div>
+                      <div className="info">{volumeInfo.publishedDate}</div>
+                    </div>
                   </div>
-                  <div className="info">{author}</div>
-                </div>
+                </Link>
               ))}
-              <div className="book-puplishedYead">
-                <div className="id">
-                  <strong>Puplished in </strong>
-                </div>
-                <div className="info">{book.volumeInfo.publishedDate}</div>
-              </div>
             </div>
-          </Link>
-        ))}
-      </div>
+          ),
+        ]
+      )}
     </>
   )
 }

@@ -1,50 +1,64 @@
 import { Link } from 'react-router-dom'
 import { useGetBookFromUrl } from '../../hooks/useGetBookFromUrl'
+import { VolumeInfo } from '../../types/GoogleBooks'
 import './BookInfo.css'
 const BookInfo = () => {
-  const { book, loading, error } = useGetBookFromUrl()
+  const { book = {} as VolumeInfo, loading, error } = useGetBookFromUrl()
+  const { title, subtitle, description, publishedDate, publisher, imageLinks } =
+    book
   return (
     <>
       <Link to={'/bookTask'}>Home</Link>
 
-      <h2>The Details about {book?.title}</h2>
-      {loading && <div className="loader"></div>}
-      {error ? (
-        <h2>The book id is unavailable</h2>
+      <h2>The Details about {title}</h2>
+
+      {loading ? (
+        <div className="loader"></div>
       ) : (
-        <div className="info">
-          <div className="description">
-            <p>
-              <strong>Book Title : </strong>
-              {book?.title}
-            </p>
-            {book?.subtitle && (
-              <p>
-                <strong>Book SubTitle : </strong>
-                {book.subtitle}
-              </p>
-            )}
-            <p>
-              <strong>Book Description : </strong>
-              {book?.description}
-            </p>
-            <p>
-              <strong>Book Puplished Date : </strong>Published in{' '}
-              {book?.publishedDate}
-            </p>
-            {book?.publisher && (
-              <p>
-                <strong>Published BY : </strong>
-                {book?.publisher}
-              </p>
-            )}
-          </div>
-          <div className="images">
-            <div className="book-img">
-              <img src={book?.imageLinks.thumbnail} />
+        [
+          error ? (
+            <h2>Error, please try agian</h2>
+          ) : (
+            <div className="info">
+              <div className="description">
+                <p>
+                  <strong>Book Title : </strong>
+                  {title}
+                </p>
+                {subtitle && (
+                  <p>
+                    <strong>Book SubTitle : </strong>
+                    {subtitle}
+                  </p>
+                )}
+                {description && (
+                  <p>
+                    <strong>Book Description : </strong>
+                    {description}
+                  </p>
+                )}
+                {publishedDate && (
+                  <p>
+                    <strong>Book Puplished Date : </strong>Published in{' '}
+                    {publishedDate}
+                  </p>
+                )}
+
+                {publisher && (
+                  <p>
+                    <strong>Published BY : </strong>
+                    {publisher}
+                  </p>
+                )}
+              </div>
+              <div className="images">
+                <div className="book-img">
+                  <img src={imageLinks?.thumbnail} />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          ),
+        ]
       )}
     </>
   )

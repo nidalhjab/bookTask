@@ -19,5 +19,5 @@ export const useGoogleBooksApi = <T>(path: string) => {
     getData()
   }, [searchTerm])
 
-  return { response, loading, error, doFetch } as const
+  return { response, loading, error, doFetch }
 }
