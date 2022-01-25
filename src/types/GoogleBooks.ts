@@ -14,7 +14,10 @@ export type Items = {
   totalItems?: string
   items: BooksApiResponse[]
 }
-
+export type State = {
+  searchInput: string
+  fetchedBooks: BooksApiResponse[] | undefined
+}
 export type VolumeInfo = {
   title: string
   subtitle: string
