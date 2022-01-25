@@ -8,9 +8,10 @@ export type BooksApiResponse = {
   accessInfo: AccessInfo
   searchInfo: SearchInfo
 }
+
 export type Items = {
-  kind: string
-  totalItems: string
+  kind?: string
+  totalItems?: string
   items: BooksApiResponse[]
 }
 
