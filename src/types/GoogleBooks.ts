@@ -16,7 +16,9 @@ export type Items = {
 }
 export type State = {
   searchInput: string
-  fetchedBooks: BooksApiResponse[] | undefined
+  loading: boolean
+  error: boolean
+  fetchedBooks: BooksApiResponse[]
 }
 export type VolumeInfo = {
   title: string
