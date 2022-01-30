@@ -1,35 +1,28 @@
-/* eslint-disable prefer-const */
 import { SyntheticEvent, useEffect, useState } from 'react'
 import './BooksQuery.css'
 import { Link } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from '../../redux/hook'
-import { GoogleBooks, selectCachedData } from '../../redux/BookSlice'
-import { BooksApiResponse } from '../../types/GoogleBooks'
+import {
+  searchBooks,
+  unsetFirstLoad,
+  getSearchInput,
+  selectBook,
+} from '../../redux/BookSlice'
 const BooksQuery = () => {
-  const [bookName, setBookName] = useState<string>('')
-  const { searchInput, FetchedBooks, loading, error } =
-    useAppSelector(selectCachedData)
   const dispatch = useAppDispatch()
-  const [bookList, setBooks] = useState<BooksApiResponse[]>()
+  const { searchInput, fetchedBooks, loading, error } =
+    useAppSelector(selectBook)
+  const [bookName, setBookName] = useState<string>(searchInput)
   useEffect(() => {
-    const setData = async () => {
-      try {
-        if (!searchInput) {
-          const data = await dispatch(GoogleBooks('react'))
-          setBooks(data.payload as any)
-        } else {
-          setBooks(FetchedBooks)
-        }
-      } catch {
-        console.log('data')
-      }
+    if (fetchedBooks) {
+      dispatch(searchBooks(bookName))
+      dispatch(unsetFirstLoad())
     }
-    setData()
   }, [])
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault()
-    const data = await dispatch(GoogleBooks(bookName))
-    setBooks(data.payload as any)
+    dispatch(getSearchInput(bookName))
+    dispatch(searchBooks(bookName))
   }
   let content
   if (loading) {
@@ -41,7 +34,7 @@ const BooksQuery = () => {
   if (!loading && !error) {
     content = (
       <div className="books">
-        {bookList?.map((book) => (
+        {fetchedBooks?.map((book) => (
           <Link key={book.id} to={`/book/${book.id}`}>
             <div className="books-list">
               <div className="book-title">
@@ -72,7 +65,7 @@ const BooksQuery = () => {
         <form onSubmit={handleSubmit}>
           <input
             type="text"
-            value={bookName ? bookName : searchInput}
+            value={bookName}
             onChange={(e) => {
               setBookName(e.target.value)
             }}

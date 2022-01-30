@@ -14,12 +14,7 @@ export type Items = {
   totalItems?: string
   items: BooksApiResponse[]
 }
-export type State = {
-  searchInput: string
-  loading: boolean
-  error: boolean
-  fetchedBooks: BooksApiResponse[]
-}
+
 export type VolumeInfo = {
   title: string
   subtitle: string
