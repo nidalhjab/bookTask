@@ -38,23 +38,22 @@ export const BookSlice = createSlice({
     builder
       .addCase(searchBooks.pending, (state) => {
         state.loading = true
+        state.error = false
         state.fetchedBooks = []
       })
       .addCase(searchBooks.fulfilled, (state, action) => {
         state.loading = false
         state.fetchedBooks = action.payload
+        state.error = false
       })
       .addCase(searchBooks.rejected, (state) => {
         state.fetchedBooks = []
+        state.loading = false
         state.error = true
       })
   },
 })
 export const { getSearchInput, unsetFirstLoad } = BookSlice.actions
-export const selectBook = (state: RootState) => {
-  return state.book
-}
-export const firstLoad = (state: RootState) => {
-  return state.book.searchInput === 'react'
-}
+export const selectBook = (state: RootState) => state.book
+
 export default BookSlice.reducer
