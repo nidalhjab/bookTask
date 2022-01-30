@@ -10,11 +10,11 @@ import {
 } from '../../redux/BookSlice'
 const BooksQuery = () => {
   const dispatch = useAppDispatch()
-  const { searchInput, fetchedBooks, loading, error } =
+  const { firstLoad, searchInput, fetchedBooks, loading, error } =
     useAppSelector(selectBook)
   const [bookName, setBookName] = useState<string>(searchInput)
   useEffect(() => {
-    if (fetchedBooks) {
+    if (firstLoad) {
       dispatch(searchBooks(bookName))
       dispatch(unsetFirstLoad())
     }

@@ -1,21 +1,25 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { GoogleBook } from '../api/GoogleBook'
-import { Items } from '../types/GoogleBooks'
-import { State } from '../types/ReduxState'
+import { BooksApiResponse, Items } from '../types/GoogleBooks'
 import { RootState } from './Store'
+export type State = {
+  firstLoad: boolean
+  searchInput: string
+  loading: boolean
+  error: boolean
+  fetchedBooks: BooksApiResponse[]
+}
 const initialState: State = {
+  firstLoad: true,
   searchInput: 'react',
   loading: false,
   error: false,
   fetchedBooks: [],
 }
-const VOLUMES_SEAECH_PATH = '/volumes?q='
 export const searchBooks = createAsyncThunk(
   'book/fetchBooks',
-  async (initalParameter: string) => {
-    const response = await GoogleBook.get<Items>(
-      VOLUMES_SEAECH_PATH + initalParameter
-    )
+  async (googleBookName: string) => {
+    const response = await GoogleBook.get<Items>('/volumes?q=' + googleBookName)
     return response.data.items
   }
 )
@@ -27,8 +31,7 @@ export const BookSlice = createSlice({
       state.searchInput = action.payload
     },
     unsetFirstLoad: (state) => {
-      state.fetchedBooks = []
-      state.searchInput = ''
+      state.firstLoad = false
     },
   },
   extraReducers: (builder) => {
@@ -49,15 +52,9 @@ export const BookSlice = createSlice({
 })
 export const { getSearchInput, unsetFirstLoad } = BookSlice.actions
 export const selectBook = (state: RootState) => {
-  return {
-    searchInput: state.book.searchInput,
-    fetchedBooks: state.book.fetchedBooks,
-    loading: state.book.loading,
-    error: state.book.error,
-  }
+  return state.book
 }
 export const firstLoad = (state: RootState) => {
-  if (state.book.searchInput === 'react') return true
-  else return false
+  return state.book.searchInput === 'react'
 }
 export default BookSlice.reducer
