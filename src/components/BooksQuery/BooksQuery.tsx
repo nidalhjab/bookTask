@@ -1,13 +1,28 @@
-import { SyntheticEvent, useState } from 'react'
+import { SyntheticEvent, useEffect, useState } from 'react'
 import './BooksQuery.css'
 import { Link } from 'react-router-dom'
-import { useGetBooks } from '../../hooks/useGetBooks'
+import { useAppSelector, useAppDispatch } from '../../redux/hook'
+import {
+  searchBooks,
+  unsetFirstLoad,
+  getSearchInput,
+  selectBook,
+} from '../../redux/BookSlice'
 const BooksQuery = () => {
-  const [bookName, setBookName] = useState<string>('')
-  const { books, loading, error, searchBooks } = useGetBooks('react')
+  const dispatch = useAppDispatch()
+  const { firstLoad, searchInput, fetchedBooks, loading, error } =
+    useAppSelector(selectBook)
+  const [bookName, setBookName] = useState<string>(searchInput)
+  useEffect(() => {
+    if (firstLoad) {
+      dispatch(searchBooks(bookName))
+      dispatch(unsetFirstLoad())
+    }
+  }, [])
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault()
-    bookName ? searchBooks(bookName) : alert('Please insert book name')
+    dispatch(getSearchInput(bookName))
+    dispatch(searchBooks(bookName))
   }
   let content
   if (loading) {
@@ -19,21 +34,23 @@ const BooksQuery = () => {
   if (!loading && !error) {
     content = (
       <div className="books">
-        {books?.map(({ id, volumeInfo }) => (
-          <Link key={id} to={`/book/${id}`}>
+        {fetchedBooks?.map((book) => (
+          <Link key={book.id} to={`/book/${book.id}`}>
             <div className="books-list">
               <div className="book-title">
                 <div className="id">
                   <strong>Title :</strong>
                 </div>
-                <div className="info">{volumeInfo.title}</div>
+                <div className="info">{book.volumeInfo.title}</div>
               </div>
               <div className="book-authors">
-                <strong>Author{volumeInfo.authors.length > 1 && 's'}</strong>:
-                {volumeInfo.authors.join(', ')}
+                <strong>
+                  Author{book.volumeInfo.authors?.length > 1 && 's'}
+                </strong>
+                :{book.volumeInfo.authors?.join(', ')}
               </div>
               <div className="book-puplishedYear">
-                <div className="id">{volumeInfo.publishedDate}</div>
+                <div className="id">{book.volumeInfo.publishedDate}</div>
               </div>
             </div>
           </Link>
